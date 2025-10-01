@@ -1,0 +1,35 @@
+# Project: LPJ
+# Makefile created by Red Panda C++ 2.21
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+RES      = LPJ_private.res
+OBJ      = main.o $(RES)
+LINKOBJ  = main.o LPJ_private.res
+CLEANOBJ  =  main.o  LPJ_private.res LPJ.exe
+LIBS     =  -s -mwindows -lgraphics -luuid -lmsimg32 -lgdi32 -limm32 -lole32 -loleaut32 -lwinmm -lgdiplus   -static
+INCS     =  
+CXXINCS  =  
+BIN      = LPJ.exe
+CXXFLAGS = $(CXXINCS)  -O2 -pipe
+CFLAGS   = $(INCS)  -O2 -pipe
+RM       = del /q /f
+WINDRESFLAGS  = 
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	-$(RM) $(CLEANOBJ) > NUL 2>&1
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.cpp
+	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)  -finput-charset=UTF-8 -fexec-charset=gbk
+
+LPJ_private.res: LPJ_private.rc 
+	$(WINDRES) -i LPJ_private.rc --input-format=rc -o LPJ_private.res -O coff $(WINDRESFLAGS) 
+
